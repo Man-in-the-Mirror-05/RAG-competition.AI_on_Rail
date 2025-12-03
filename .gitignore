@@ -10,5 +10,7 @@ storage/
 venv/
 .idea/
 .vscode/
+docker-compose.yml
 技术文档.docx
+Dockerfile
 EOF
