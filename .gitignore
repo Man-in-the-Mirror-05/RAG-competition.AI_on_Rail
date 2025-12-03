@@ -10,6 +10,7 @@ storage/
 venv/
 .idea/
 .vscode/
+team17.tar
 docker-compose.yml
 技术文档.docx
 Dockerfile
