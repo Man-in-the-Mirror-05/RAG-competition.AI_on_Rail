@@ -1,0 +1,14 @@
+__pycache__/
+复赛提交说明/
+AI_database/
+output/
+storage/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.idea/
+.vscode/
+技术文档.docx
+EOF

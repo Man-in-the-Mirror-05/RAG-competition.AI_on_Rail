@@ -1,0 +1,216 @@
+{
+  "profiles": {
+    "info_search": {
+      "description": "信息搜索：面向事实类问题，快速定位唯一答案并引用出处。",
+      "prompt_template": "你作为一名铁路情报速递分析师，需严格基于我提供的“{context}”这些资料，对“{question}”这个问题给出直接答案。你的核心任务是快速锁定资料中最确凿的事实进行反馈：首先用一句话明确回答问题，不得含糊；随后注明关键证据的来源，以【文档名称】格式标注，可并列多个来源。整个过程必须严格遵循两项约束：一是仅可引用资料中明确存在的信息，严禁任何臆测；二是若遇不同资料内容冲突，应优先采纳时间最新且证据最充分的内容，并在答案中予以说明。回答不要使用markdown加粗语法。",
+      "retrieval_parameters": {
+        "top_k": 2,
+        "max_contexts": 2,
+        "max_tokens": 1200,
+        "expand_sentences": 1,
+        "seed_sentences_per_block": 1,
+        "per_block_cap": 2
+      },
+      "llm_parameters": {
+        "temperature": 0.25
+      }
+    },
+    "single_doc_analysis": {
+      "description": "单文档分析：聚焦于某一文档的条文或图表，产出结构化分析。",
+      "prompt_template": "你是一名交通领域的标准条文解读专家，擅长将复杂的条文转化为清晰、易懂的结论。你的任务是针对用户提问，基于提供的文档进行精准解答。回答风格要求语言需流畅、连贯，如同专家当面讲解。引用文档信息时，应将其自然融入叙述中，例如：“该规定明确了……（详见第三章第二节）”。核心结论：用2-3句话直接给出明确的答案，突出最关键的数据、结论或行动要求。随后分点阐述得出上述结论的主要依据。每条依据应结合文档中的具体内容（如条文、图表编号）进行说明，但需保持语言的流畅性。回答不要使用markdown加粗语法。待分析文档：{context}待解答任务：{question}",
+      "retrieval_parameters": {
+        "top_k": 3,
+        "max_contexts": 3,
+        "max_tokens": 2800,
+        "expand_sentences": 2,
+        "seed_sentences_per_block": 2,
+        "per_block_cap": 3
+      },
+      "llm_parameters": {
+        "temperature": 0.5
+      }
+    },
+    "multi_doc_analysis": {
+      "description": "多文档分析：需要横向对比多个标准或报告，识别差异与联系。",
+      "prompt_template": "你是一名交通领域的标准条文解读专家，擅长对比分析多份文献并提炼出综合性的深刻见解。你的任务是基于用户提问，对提供的多份资料进行整合分析。行文应像一份高质量的分析报告，逻辑清晰，语言自然。避免生硬地标注来源，应在引述关键观点或数据时，自然地提及文档背景，例如：“A报告指出……，而B研究则提供了不同的视角……”。输出结构如下： 1.  综合摘要：用一个简短的段落总结整体的比较分析结论，指出主要的异同点和关联性。 2.  对比剖析：随后，分别梳理每份资料的核心观点及其对结论的贡献，清晰地比较它们之间的差异、共性及内在联系。对于资料中未覆盖的信息点，需明确说明。  3.  最终判断：基于以上分析，给出覆盖所有提问点的最终判断。回答不要使用markdown加粗语法。\n 可供调研的资料：{context}待分析任务：{question}",
+      "retrieval_parameters": {
+        "top_k": 4,
+        "max_contexts": 4,
+        "max_tokens": 2800,
+        "expand_sentences": 4,
+        "seed_sentences_per_block": 3,
+        "per_block_cap": 4
+      },
+      "llm_parameters": {
+        "temperature": 0.8
+      }
+    }
+  },
+  "items": [
+    {
+      "question": "2024 年，株洲中车时代电气股份有限公司中标金额是多少？",
+      "question_type": "direct",
+      "profile": "info_search",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "根据欧洲铁路局 2025-2027 年单一规划文件，机构注册系统迁移到知识图谱（knowledge graph）方法的目标进度在 2025 年底应达到多少百分比？",
+      "question_type": "direct",
+      "profile": "info_search",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "在 UIC 的报告里，根据国际能源署的分析，铁路的市场份额需要增长多少才能在本十年内实现《巴黎协定》的目标？",
+      "question_type": "direct",
+      "profile": "info_search",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "参照 IEEE 1474.1 的定义，附件 D (Typical safe braking model) 中对安全制动模型的描述，在“滑行时间 (Coast time, C)”期间，列车被假定处于什么状态？",
+      "question_type": "direct",
+      "profile": "info_search",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "在 Manresa 车站的事件调查报告中，列车 78443 被授权越过 3023 进站信号机后，何时（日期和时间）发生了列车 95218 最终启动了行驶，并最终导致两列车存在碰撞风险？",
+      "question_type": "direct",
+      "profile": "info_search",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "南京地铁 S7 号线的运营里程在江苏省内已运营地铁长度中排第几？",
+      "question_type": "lite_analysis",
+      "profile": "single_doc_analysis",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "车辆外部移动实体的场景要素：根据 GB/T 43267—2023（预期功能安全），在场景要素结构中，可移动实体的第 2 层要素和第 3 层要素分别是什么？（需完整列出第 3 层中所有实体类型）",
+      "question_type": "lite_analysis",
+      "profile": "single_doc_analysis",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "根据文档《2024_Communications-Based Train Control》，图 5.11 所示的网状控制回路结构，ATO 子系统如何获取输入（Messglieder）、形成车辆轨迹（Fahrzeugtrajektorie），并将轨迹作为目标值传递给列车的控制设备（Steuergerät）？",
+      "question_type": "deep_analysis",
+      "profile": "single_doc_analysis",
+      "retrieval_parameters": {
+        "max_tokens": 2800,
+        "expand_sentences": 3
+      },
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "在 CBTC 互联互通规范体系中，关于列车启动、加速、巡航和制动的自动控制功能，其在《系统总体要求》中的分配归属于哪个子系统？并在《CBTC 部分测试及验证》中体现在哪个功能的测试中，测试需求编号是什么？",
+      "question_type": "deep_analysis",
+      "profile": "multi_doc_analysis",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "ERTMS/ETCS 列车牵引系统数据定义演变：比较 SUBSET-026 Baseline 3 (v3.4.0) 和 Baseline 4 (v4.0.0) 版本中 Validated Train Data (Packet 11) 的内容定义：1）该数据包中用于表示牵引系统标识的变量名称是什么？2）当该变量不为零时，需要包含哪些额外的牵引数据变量？",
+      "question_type": "deep_analysis",
+      "profile": "multi_doc_analysis",
+      "retrieval_parameters": {
+        "top_k": 5,
+        "max_contexts": 5
+      },
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "R2DATO 项目 D13.1 可交付成果的安全分析部分（Part 3）采用了哪种专注于“不安全控制行为”（UCA）的新型分析方法？该方法的结果与 D13.1 的系统规格部分（Part 2）在哪个工作包（WP）中得到了持续跟进和更新？",
+      "question_type": "deep_analysis",
+      "profile": "single_doc_analysis",
+      "llm_parameters": {
+        "temperature": 0.5
+      },
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "请比较在 SUBSET-026 的 v3.4.0 和 v4.0.0 中，对于安全紧急制动建立时间（Safe brake build up time）的定义有什么区别？需要同时指出相同点与不同点。",
+      "question_type": "deep_analysis",
+      "profile": "multi_doc_analysis",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "根据《道路车辆 预期功能安全》中的图 11，当对已知危害场景的风险（步骤 10）和未知场景的残余风险（步骤 11）进行评估后，必须满足什么条件才能达到最终“预期功能安全发布”（步骤 12）的目标？",
+      "question_type": "lite_analysis",
+      "profile": "single_doc_analysis",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "请比较《城市轨道交通全自动运行系统 通用技术条件》和《城市轨道交通全自动运行系统运营技术和管理规范（试行）》中，对于全自动列车过标或欠标时的处置原则有何异同。",
+      "question_type": "deep_analysis",
+      "profile": "multi_doc_analysis",
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    },
+    {
+      "question": "北京地铁昌平线“7·25”脱轨事故调查报告指出，市地铁公司汲取“12·14”追尾事故教训不深刻。请结合两份事故报告，说明市地铁公司在行车调度员满岗要求和突发情况处置流程细化两个方面，哪些整改要求在“7·25”事故中被查明落实不到位或存在缺陷？",
+      "question_type": "deep_analysis",
+      "profile": "multi_doc_analysis",
+      "retrieval_parameters": {
+        "max_tokens": 2800,
+        "expand_sentences": 5
+      },
+      "retrieved_contexts": [
+        "这里填写第1条召回结果的正文内容",
+        "这里填写第2条召回结果的正文内容"
+      ],
+      "answer": "这里填写基于召回内容生成的回答"
+    }
+  ]
+}
